@@ -4,8 +4,8 @@
 
 | Field | Value |
 |-------|--------|
-| **Repo URL** | *(No `git remote` — `.git` not present in this workspace. Run `git init` / `git remote add origin …` before publishing.)* |
-| **Branch** | `main` *(expected once initialized)* |
+| **Repo URL** | https://github.com/jafanlim/signal-lab |
+| **Branch** | `main` |
 | **Time (hands-on)** | **~4 hours** total phased build *(approximate — no dated `JOURNAL.md` in repo; aligns with phased orchestrator breakdown)* |
 
 ## Stack inventory (☑ implemented)
