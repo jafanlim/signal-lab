@@ -1,0 +1,33 @@
+---
+description: Observability wiring rules — applies when editing metrics, logs, or Sentry
+globs: ["backend/src/metrics/**", "backend/src/logger/**", "backend/src/scenarios/**", "infra/**"]
+---
+
+# Observability Rules
+
+## Prometheus (prom-client)
+- All metric names: signal_lab_{name} prefix, snake_case
+- Standard labels on scenario counter: type (scenario type), status (success | error)
+- Register metrics in MetricsService constructor — never in ad-hoc files
+- Expose via GET /metrics using prom-client register.metrics()
+- Never create duplicate metric registrations — check registry before adding
+
+## Loki (winston-loki transport)
+- Transport config: host from process.env.LOKI_HOST, labels: { app: 'signal-lab' }
+- Dynamic labels from log payload: scenarioType maps to a Loki label
+- Every log entry must be a structured object — never a plain string
+- Required fields on every backend log: scenarioId, scenarioType, status, durationMs
+- Log levels: info → success runs, warn → slow_request, error → system_error (and other failures)
+
+## Sentry (@sentry/node)
+- Initialize in main.ts before app bootstrap — Sentry.init({ dsn: process.env.SENTRY_DSN })
+- Call Sentry.captureException(error) only on system_error scenario type
+- Always call after Sentry.init is confirmed — never in a module constructor
+- DSN must come from environment variable — never hardcoded
+
+## Grafana dashboard
+- Dashboard JSON lives in infra/grafana/dashboards/signal-lab.json
+- Provisioned via infra/grafana/provisioning/dashboards/dashboards.yml
+- Any new metric added to backend MUST have a corresponding Grafana panel added
+- PromQL for rate: rate(signal_lab_scenarios_total[1m]) — not increase()
+- Loki panel query: {app="signal-lab"} — always include app label

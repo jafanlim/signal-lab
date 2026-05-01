@@ -1,0 +1,44 @@
+# ─── Node / Build Artifacts ──────────────────────────────────────────────────
+node_modules/
+dist/
+build/
+.next/
+out/
+
+# ─── Environment Files ────────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+# .env.example is intentionally NOT ignored — it's the committed template
+
+# ─── Prisma ───────────────────────────────────────────────────────────────────
+# Keep backend/prisma/migrations/ — only ignore SQLite dev databases
+*.db
+*.db-journal
+dev.db
+
+# ─── Docker ───────────────────────────────────────────────────────────────────
+docker-compose.override.yml
+
+# ─── OS / Editor ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+
+# Ignore .vscode/ broadly but keep extensions.json if it exists
+.vscode/*
+!.vscode/extensions.json
+
+# ─── Logs / Coverage ─────────────────────────────────────────────────────────
+*.log
+logs/
+npm-debug.log*
+yarn-error.log*
+coverage/
+.nyc_output/
+
+# ─── NOT ignored (intentional) ───────────────────────────────────────────────
+# .cursor/          — Cursor AI layer, must be committed
+# .env.example      — template for environment setup, must be committed
+# infra/            — all infra config must be committed
+# backend/prisma/migrations/ — migration history must be committed

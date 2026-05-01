@@ -1,0 +1,20 @@
+---
+description: Error handling conventions for Signal Lab backend and frontend
+globs: ["backend/src/**/*.ts", "frontend/**/*.tsx"]
+---
+
+# Error Handling Rules
+
+## Backend
+- Always use NestJS built-in exceptions: HttpException, BadRequestException, InternalServerErrorException
+- Never return error objects from controllers — throw exceptions
+- validation_error scenarios: throw BadRequestException (or HttpException 400) with a descriptive message
+- system_error scenarios: throw Error; let the global exception filter map unhandled errors to 500 if one is added
+- Always call Sentry.captureException with the thrown error for system_error type (in the handler that catches the simulated failure)
+- Global exception filter (when present) must map all unhandled errors to 500 with a safe message
+
+## Frontend
+- useMutation onError: show a toast or inline error message — never swallow errors silently
+- validation_error (400): show the error message from the response body
+- system_error (500): show a generic "Something went wrong" message to the user
+- Network errors: show a short connectivity or retry hint; do not fail silently

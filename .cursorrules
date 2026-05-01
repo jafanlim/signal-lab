@@ -1,0 +1,9 @@
+# signal-lab — legacy .cursorrules fallback
+Stack: NestJS (port 4000) + Next.js App Router (port 3000) + PostgreSQL + Prisma
+Observability: prom-client + winston-loki + @sentry/node + Grafana + Loki + Prometheus
+All infrastructure via Docker Compose only.
+Never use console.log in backend — always NestJS Logger.
+All metrics prefixed signal_lab_. All logs structured JSON with scenarioId + scenarioType.
+Every scenario run fires all 4 signals: counter + log + prisma persist + sentry (if error).
+If request is ambiguous: state interpretation and ask before coding.
+Surgical edits only — don't touch code outside the scope of the request.

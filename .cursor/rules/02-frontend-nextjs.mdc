@@ -1,0 +1,31 @@
+---
+description: Next.js frontend conventions for Signal Lab
+globs: ["frontend/**/*.tsx", "frontend/**/*.ts"]
+---
+
+# Frontend Rules — Next.js App Router
+
+## Component conventions
+- Server components by default — only add "use client" when component needs hooks or events
+- File naming: kebab-case (run-scenario-form.tsx, run-history.tsx)
+- One component per file — no barrel exports needed for small projects
+- shadcn/ui components only — never raw HTML form/button/input elements
+
+## Data fetching
+- All server state via TanStack Query (useQuery, useMutation) — never useEffect + fetch
+- Mutations must invalidate the relevant query on success
+- Always handle loading and error states — never leave them undefined
+- API client in lib/api.ts — never inline fetch() calls in components
+
+## Forms
+- React Hook Form for ALL forms — never controlled inputs with useState
+- Always use zod resolver for schema validation
+- Submit button disabled while mutation is pending
+
+## Styling
+- Tailwind CSS only — no inline styles, no CSS modules, no styled-components
+- Use shadcn/ui component variants for color/state — never custom color classes on shadcn components
+- Responsive by default — consider mobile layout even if desktop-first
+
+## Environment
+- API base URL from NEXT_PUBLIC_API_URL — never hardcode localhost:4000

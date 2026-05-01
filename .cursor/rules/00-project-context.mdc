@@ -1,0 +1,45 @@
+---
+description: Signal Lab project overview — always included in every AI call
+alwaysApply: true
+---
+
+# Project: Signal Lab
+
+## What this is
+A full-stack observability playground. Users trigger scenarios via UI; each scenario generates Prometheus metrics, Loki logs, and optionally a Sentry exception. The point is to demonstrate a fully wired observability stack.
+
+## Stack (mandatory — no substitutions)
+- Frontend: Next.js 14 App Router · shadcn/ui · Tailwind CSS · TanStack Query · React Hook Form
+- Backend: NestJS · Prisma ORM · PostgreSQL
+- Observability: prom-client · winston + winston-loki · @sentry/node · Grafana · Loki · Prometheus
+- Infra: Docker Compose only — everything starts with `docker compose up -d`
+
+## Monorepo structure
+/frontend          — Next.js app (port 3000)
+/backend           — NestJS app (port 4000)
+/infra/prometheus  — prometheus.yml
+/infra/loki        — loki-config.yml
+/infra/grafana     — provisioning/ + dashboards/
+docker-compose.yml
+.env.example
+
+## Key backend files
+backend/src/scenarios/scenario.service.ts   — core: runs scenarios, fires observability signals
+backend/src/scenarios/scenario.controller.ts — POST /scenarios · GET /scenarios/history
+backend/src/metrics/metrics.service.ts       — prom-client counter registration
+backend/src/logger/loki-logger.service.ts    — winston transport to Loki
+backend/prisma/schema.prisma                 — ScenarioRun model
+
+## Scenario types (PRD 002)
+- success          → happy path (~10ms), counter + log + DB
+- validation_error → HTTP 400, no counter, no DB save
+- system_error     → Sentry + error log + counter{error} + DB (status error)
+- slow_request     → 2s delay, warn log, counter + DB
+- teapot           → HTTP 418 body `{ signal, message }`, counter + log + DB with `metadata: { easter: true }`
+
+## Non-negotiable rules (always enforce)
+- Never use console.log in backend — always use the injected NestJS Logger
+- Never suggest replacing any stack item with an alternative
+- Every scenario run MUST fire all 4 observability signals (see observability rule)
+- All Prometheus metrics prefixed signal_lab_
+- All structured logs must include fields: scenarioId, scenarioType, status

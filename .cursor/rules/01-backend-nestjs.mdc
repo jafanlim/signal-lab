@@ -1,0 +1,36 @@
+---
+description: NestJS backend conventions for Signal Lab
+globs: ["backend/src/**/*.ts", "backend/prisma/**"]
+---
+
+# Backend Rules — NestJS + Prisma
+
+## Module structure
+- One NestJS module per domain (scenarios, metrics, logger)
+- Services are injectable and exported — controllers are never exported
+- Never put business logic in controllers — controllers only validate input and call service
+- DTOs for all request bodies using class-validator decorators
+
+## NestJS conventions
+- All services: inject Logger via constructor, never instantiate directly
+- Use @Injectable(), @Controller(), @Get(), @Post() — never express req/res directly
+- Error handling: throw HttpException or built-in NestJS exceptions, never return error objects
+- Add @ApiTags() and @ApiOperation() to every controller for Swagger
+
+## Prisma
+- All models: PascalCase names, camelCase fields
+- Always use cuid() for IDs — never uuid() or autoincrement
+- Never query Prisma directly from controllers — always via service
+- Run `npx prisma migrate dev` after any schema change, never `db push` in dev
+
+## TypeScript
+- Strict mode enabled — no `any` types
+- All async functions return typed Promises
+- Interfaces for all shared types, not inline object types
+
+## Observability — enforced on every scenario run
+Every call to scenario.service.ts runScenario() MUST:
+1. Call metricsService.increment(type, status)
+2. Call this.logger.log/warn/error with structured JSON payload
+3. Call prisma.scenarioRun.create() to persist the record
+4. If type === system_error: call Sentry.captureException(error)

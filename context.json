@@ -1,0 +1,35 @@
+{
+  "project": "Signal Lab",
+  "currentPhase": 7,
+  "completedPhases": [0, 1, 2, 3, 4, 5, 6, 7],
+  "completedTasks": [
+    "cursor-ai-layer-12-files",
+    "docker-compose-6-services",
+    "gitignore",
+    "nestjs-backend-4-signals",
+    "prisma-schema-migration",
+    "metrics-service-prom-client",
+    "loki-logger-winston",
+    "scenario-service-3-types",
+    "scenario-controller-swagger",
+    "nextjs-frontend-3-panels",
+    "run-scenario-form-rhf-zod",
+    "run-history-tanstack-query",
+    "obs-links-panel",
+    "grafana-dashboard-4-panels",
+    "loki-logs-readable-json",
+    "readme-root",
+    "submission-checklist-complete",
+    "final-verification-curls"
+  ],
+  "blockers": [],
+  "deviations": [
+    "Prisma v7: @prisma/adapter-pg required, PrismaService uses pg.Pool",
+    "@nestjs/common pinned to 11.0.7 — v11.1.x has broken npm publish",
+    "No backend hot-reload — Node.js v25 + ajv-formats + nest CLI incompatibility",
+    "Prometheus scrape target: host.docker.internal:4000 (not backend:4000) — backend runs on host",
+    "Next.js 16 uses Turbopack by default — kept, no issues"
+  ],
+  "lastUpdated": "2026-05-01",
+  "sessionNotes": "Phase 7: README.md, SUBMISSION_CHECKLIST.md, interviewer verification sequence passed."
+}
