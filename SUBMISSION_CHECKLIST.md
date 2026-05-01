@@ -6,7 +6,7 @@
 |-------|--------|
 | **Repo URL** | https://github.com/jafanlim/signal-lab |
 | **Branch** | `main` |
-| **Time (hands-on)** | **~4 hours** total phased build *(approximate — no dated `JOURNAL.md` in repo; aligns with phased orchestrator breakdown)* |
+| **Time (hands-on)** | **~3 hours** total phased build *(approximate — no dated `JOURNAL.md` in repo; aligns with phased orchestrator breakdown)* |
 
 ## Stack inventory (☑ implemented)
 
